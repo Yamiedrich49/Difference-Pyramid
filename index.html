@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#091321">
-<meta name="description" content="3枚から始まり、学んだ攻略法を使って解く50ステージの算数パズル。">
-<title>DIFF. — 差のピラミッド | v0.7</title>
+<meta name="description" content="数字が生まれる光、澄んだ音、思考の発見。学びながら楽しむ50ステージの算数パズル。">
+<title>DIFF. — 差のピラミッド | v0.8</title>
 <style>
 :root{color-scheme:dark;--ink:#091321;--ink2:#101d30;--line:rgba(182,219,236,.13);--text:#edf8fb;--muted:#92a7b9;--aqua:#a1f8e7;--aqua2:#65d9d5;--gold:#ffdf9c;--tile:clamp(43px,min(13.8vw,6.8svh),60px);--tile-gap:clamp(5px,1.9vw,9px);--row-gap:clamp(9px,1.6svh,16px);--radius:20px}
 *{box-sizing:border-box}[hidden]{display:none!important}.goal-left .eyebrow{white-space:nowrap}html{min-height:100%;background:var(--ink)}body{margin:0;min-height:100svh;overflow-x:hidden;font-family:"Avenir Next","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;background:radial-gradient(ellipse 60% 35% at 51% 39%,rgba(36,113,125,.14),transparent 82%),radial-gradient(ellipse 78% 50% at 90% -15%,rgba(85,113,157,.19),transparent 70%),linear-gradient(163deg,#0d1929 4%,#091321 70%);}
@@ -88,6 +88,28 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--aqua);outline-o
 .lesson-dialog .new-idea[hidden]{display:none!important}
 .lesson-actions{margin-top:8px}
 @media(max-height:680px){.lesson-dialog .lesson-proof{font-size:12px}}
+
+/* v0.8 / A mathematical instrument: light is causal, not decorative. */
+:root{--aqua:#adfceb;--aqua2:#6ddfd6}
+.tile-top{box-shadow:0 5px 0 #76a7ae,0 11px 15px rgba(0,0,0,.22),inset 0 1px 1px #fff;transition:transform .15s cubic-bezier(.2,.85,.2,1),box-shadow .15s,filter .16s}
+.tile-top:focus-visible{outline:3px solid #74e4cd;outline-offset:5px}
+.flying-tile{filter:brightness(1.09) drop-shadow(0 7px 10px rgba(92,229,206,.16))}
+.tile-ghost.revealed{border-color:rgba(165,249,231,.44);box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 0 18px rgba(83,229,205,.10)}
+.tile-ghost.revealed.zero-result:not(.final){background:linear-gradient(145deg,rgba(27,69,79,.78),rgba(17,49,66,.70));color:#b7dcdf;border-color:rgba(146,210,217,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);}
+.tile-ghost.revealed.changed-cell:not(.final){animation:deltaBirth .58s ease both;border-color:rgba(253,210,137,.64)}
+.tile-ghost.revealed.prediction-hit{outline:2px solid #ffe1a0;outline-offset:3px;box-shadow:0 0 22px rgba(255,220,151,.34)}
+.tile-ghost.revealed.prediction-miss{outline:1px solid rgba(213,226,237,.44);outline-offset:3px}
+@keyframes deltaBirth{0%{transform:scale(.76);opacity:.5;box-shadow:0 0 22px rgba(252,220,146,.47)}70%{transform:scale(1.08);opacity:1}100%{transform:scale(1);opacity:1}}
+.causal-spark{position:fixed;z-index:12;width:7px;height:7px;border-radius:50%;pointer-events:none;background:#c5fff0;box-shadow:0 0 7px 2px #85efdd,0 0 20px 5px rgba(94,241,207,.34);will-change:transform,opacity}
+.rail.active{filter:drop-shadow(0 0 4px rgba(164,252,225,.7));stroke:#b3ffee;stroke-width:1.65}
+.board-tools{display:flex;align-items:center;gap:9px;min-width:0}.predict-btn{background:rgba(125,220,211,.05);color:#92bec5;border:1px solid rgba(143,223,222,.19);padding:5px 8px;border-radius:999px;font:600 10px/1 ui-monospace,monospace;letter-spacing:.025em;cursor:pointer;white-space:nowrap}.predict-btn.active{background:rgba(143,247,222,.16);border-color:rgba(143,247,222,.58);color:#ddfff5}
+.tile-ghost.prediction-choice{cursor:crosshair;border-style:dashed;border-color:rgba(182,247,228,.34)}.tile-ghost.prediction-choice:not(:disabled):hover{background:rgba(126,236,211,.12)}.tile-ghost.predicted{color:#dff7e7;font-size:clamp(14px,4vw,18px);border-color:rgba(255,218,149,.66);background:rgba(127,107,64,.15)}
+.tile-ghost:disabled{opacity:1;cursor:default}.tile-ghost.predicted:disabled{opacity:1}
+.lesson-lens{border:1px solid rgba(132,235,215,.20);border-radius:14px;padding:13px;margin:7px 0 12px;background:radial-gradient(circle at 50% 10%,rgba(86,210,190,.10),transparent 72%),rgba(8,27,41,.48);text-align:center}
+.lens-label{font-size:10px;letter-spacing:.13em;color:#9ac9cb;margin-bottom:11px}.lens-scale{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}.lens-tick{font:600 11px/1.8 ui-monospace,monospace;color:#6f8994;position:relative;border-top:2px solid rgba(150,199,199,.17);padding-top:5px}.lens-tick.on{border-color:rgba(98,227,211,.8);color:#c4fdf2}.lens-tick.point{color:#ffe0a4;border-top-color:#ffe0a4}.lens-sentence{color:#b5d2d6;font-size:11.5px;margin-top:12px;line-height:1.6}.lens-sentence b{color:#f9df9c;font-size:15px}.lens-pair{display:flex;align-items:center;justify-content:center;gap:14px}.lens-pair span{padding:9px 13px;color:#e6fff5;font-size:26px;border:1px solid rgba(139,240,220,.25);background:rgba(145,229,213,.08);border-radius:11px;line-height:1.2}.lens-pair small{display:block;font-size:9px;color:#99c4c5;margin-top:6px}.lens-pair em{font-size:13px;font-style:normal;color:#9bbabb}
+@media(max-width:350px){.board-meta-right{font-size:9px}.board-tools{gap:4px}.predict-btn{font-size:9px;padding:4px 6px}}
+@media(prefers-reduced-motion:reduce){.causal-spark{display:none}}
+@media(max-height:650px){.lesson-dialog .explain-number{min-width:25px;height:23px;font-size:12px}.lesson-dialog .lesson-visual{padding:6px 6px;gap:2px}.lesson-dialog .new-idea{margin-top:9px}.lesson-dialog .lesson-lead{font-size:14px;line-height:1.45}.lesson-lens{padding:9px;margin:5px 0 8px}.lens-label{margin-bottom:7px}.lens-sentence{margin-top:8px}}
 </style>
 </head>
 <body>
@@ -107,13 +129,13 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--aqua);outline-o
     <div class="stage-digits"><b id="stageCount">01</b> / 50</div>
   </div>
   <nav class="progress" aria-label="ステージ進行状況" id="progress"></nav>
-  <div class="chapter-progress" aria-hidden="true"><span id="chapterNote">CHAPTER 01</span><span class="chapter-track"><i id="chapterLine"></i></span><span>THINK · DISCOVER</span></div>
+  <div class="chapter-progress" aria-hidden="true"><span id="chapterNote">CHAPTER 01</span><span class="chapter-track"><i id="chapterLine"></i></span><span>SEE THE PATTERN</span></div>
   <section class="goal-card" aria-label="目標値">
     <div class="goal-left"><div class="eyebrow">TARGET</div><strong>最後の数字</strong></div>
     <div class="goal-right"><span class="goal-number" id="goalNumber">4</span></div>
   </section>
   <section class="board-section" aria-label="数字のピラミッド">
-    <div class="board-meta"><span class="board-label">THE PYRAMID</span><span class="board-meta-right" id="boardMeta">数字を自由に交換</span></div>
+    <div class="board-meta"><span class="board-label">THE PYRAMID</span><span class="board-tools"><button type="button" id="predictBtn" class="predict-btn" hidden aria-pressed="false" title="途中のマスが0になると予想する">◇ 0を予言</button><span class="board-meta-right" id="boardMeta">数字を自由に交換</span></span></div>
     <div class="board-wrap" id="boardWrap"><div class="board-aura"></div><svg class="rail-svg" id="railSvg" aria-hidden="true"></svg><div class="board" id="board"></div></div>
     <div class="board-message" id="boardMessage" aria-live="polite">カードをドラッグ、または2枚をタップして交換</div>
   </section>
@@ -149,7 +171,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--aqua);outline-o
   <div class="dialog-header"><div><div class="eyebrow" id="lessonStage">STAGE 01 / LEARN</div><h2 id="lessonTitle">差をそろえる</h2></div><button class="dialog-close" data-close="lessonDialog" aria-label="閉じる">×</button></div>
   <div id="lessonBadge" class="new-idea">✦ NEW IDEA</div>
   <p class="lesson-lead" id="lessonLead"></p>
-  <div class="lesson-visual" id="lessonVisual"></div>
+  <div class="lesson-visual" id="lessonVisual"></div><div id="lessonLens" class="lesson-lens" hidden></div>
   <p class="lesson-proof" id="lessonProof"></p>
   <div class="lesson-detail" id="lessonDetail" hidden></div>
   <div class="lesson-actions">
@@ -177,35 +199,84 @@ const wait=ms=>new Promise(r=>setTimeout(r,reduced?Math.min(ms,2):ms));
 const two=n=>String(n).padStart(2,'0');
 let stage=Math.max(0,Math.min(49,Number(store.get('stage',0))||0));
 let completed=store.get('done',[]);if(!Array.isArray(completed))completed=[];completed=[...new Set(completed.filter(n=>Number.isInteger(n)&&n>=0&&n<50))];
-let arrangement=[],selected=null,phase='idle',hintLevel=0,hintSeen={},audioEnabled=store.get('sound',(()=>{try{return JSON.parse(localStorage.getItem('diff_academy_v05_sound'))??true}catch{return true}})()),audioCtx=null,railMap=new Map(),drag=null,swapLock=false,animToken=0,revealCount=0;
+let arrangement=[],selected=null,phase='idle',hintLevel=0,hintSeen={},lastAttempt=null,comparisonRows=null,skipReveal=false,prediction=null,predictionMode=false,attempts=0,audioEnabled=store.get('sound',(()=>{try{return JSON.parse(localStorage.getItem('diff_academy_v05_sound'))??true}catch{return true}})()),audioCtx=null,railMap=new Map(),drag=null,swapLock=false,animToken=0,revealCount=0;
 const pz=()=>PUZZLES[stage];
-// All game sounds use notes from C-major pentatonic, with soft envelopes.
-// Non-chromatic intervals + no pitch fall prevent the former dissonant chimes.
-const NOTES={C4:261.626,E4:329.628,G4:391.995,A4:440,C5:523.251,D5:587.330,E5:659.255,G5:783.991,A5:880,C6:1046.502};
-const REVEAL_MELODY=[NOTES.C5,NOTES.D5,NOTES.E5,NOTES.G5,NOTES.A5,NOTES.G5,NOTES.E5,NOTES.D5,NOTES.C5];
+// An intentionally sparse, consonant sound palette: tactile micro-clicks + glass harmonics.
+// Each calculation sounds like a polished, soft glass bead, not a random melody.
+const NOTES={C4:261.626,E4:329.628,G4:391.995,C5:523.251,E5:659.255,G5:783.991,C6:1046.502};
 function armAudio(){if(!audioEnabled)return null;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});return audioCtx}catch{return null}}
-function playTone(freq=NOTES.C5,dur=.14,type='sine',vol=.014,delay=0){const ctx=armAudio();if(!ctx)return;try{const t=ctx.currentTime+delay,osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sine';osc.frequency.setValueAtTime(freq,t);gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,vol),t+.014);gain.gain.exponentialRampToValueAtTime(.0001,t+dur);osc.connect(gain);gain.connect(ctx.destination);osc.start(t);osc.stop(t+dur+.02)}catch{}}
-function playRevealNote(step,final){playTone(final?NOTES.C5:REVEAL_MELODY[step%REVEAL_MELODY.length],final?.2:.12,'sine',final?.022:.011)}
-function playSuccess(){[[NOTES.C5,0,.024],[NOTES.E5,.11,.023],[NOTES.G5,.22,.022],[NOTES.C6,.37,.019]].forEach(([f,d,v])=>playTone(f,.31,'sine',v,d))}
-function playMiss(kind){if(kind==='near'){playTone(NOTES.E5,.12,'sine',.015);playTone(NOTES.C5,.18,'sine',.014,.14)}else if(kind==='mid'){playTone(NOTES.D5,.12,'sine',.013);playTone(NOTES.C5,.18,'sine',.013,.14)}else{playTone(NOTES.G4,.13,'sine',.012);playTone(NOTES.C4,.21,'sine',.012,.15)}}
+function playTone(freq=NOTES.C5,dur=.14,type='sine',vol=.014,delay=0){const ctx=armAudio();if(!ctx)return;try{const t=ctx.currentTime+delay,osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,t);gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,vol),t+.009);gain.gain.exponentialRampToValueAtTime(.0001,t+dur);osc.connect(gain);gain.connect(ctx.destination);osc.start(t);osc.stop(t+dur+.018)}catch{}}
+function playGlass(freq=NOTES.C5,vol=.012,dur=.17,delay=0){const ctx=armAudio();if(!ctx)return;try{const t=ctx.currentTime+delay;for(const [multiple,amp,fade] of [[1,1,1],[2,.18,.67]]){const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(freq*multiple,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol*amp,t+.007);g.gain.exponentialRampToValueAtTime(.0001,t+dur*fade);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+dur+.03)}}catch{}}
+function playTouch(kind='touch'){if(kind==='lift')playGlass(NOTES.E5,.004,.055);else if(kind==='snap'){playGlass(NOTES.G4,.009,.092);playGlass(NOTES.C5,.004,.076,.022)}else if(kind==='predict')playGlass(NOTES.E5,.008,.12);else playGlass(NOTES.C5,.004,.067)}
+function playRevealNote(step,final,row){const pitches=[NOTES.C5,NOTES.E5,NOTES.G5,NOTES.C6];const f=final?NOTES.C6:pitches[Math.min(row-1,3)];playGlass(f,final?.017:.0084,final?.29:.105)}
+function playSuccess(){[[NOTES.C5,0,.018],[NOTES.E5,.10,.015],[NOTES.G5,.20,.016],[NOTES.C6,.32,.018]].forEach(([f,d,v])=>playGlass(f,v,.37,d))}
+function playMiss(kind){playGlass(kind==='near'?NOTES.E5:NOTES.C5,.010,.15);playGlass(NOTES.G4,.006,.16,.12)}
 function setMessage(msg,cls=''){const x=$('boardMessage');x.textContent=msg;x.className='board-message '+cls}
-function setButtons(){let t='',s='',side='',enabled=true;const b=$('mainButton');if(phase==='idle'){t='答えを確かめる';s='REVEAL THE DIFFERENCE';side='ヒント';enabled=!swapLock}else if(phase==='revealing'){t='差をたどっています…';s='CALCULATING';side='···';enabled=false}else if(phase==='lost'){t='ヒントを見る';s='OR SWAP TO RETRY';side='正解例'}else{t=stage===49?'ステージを選ぶ':'次のステージへ';s=stage===49?'50 STAGES COMPLETE':'CONTINUE';side='学び'}$('mainText').textContent=t;$('mainSmall').textContent=s;$('sideText').textContent=side;b.disabled=!enabled;document.querySelectorAll('.tile-top').forEach(el=>el.disabled=(phase!=='idle'&&phase!=='lost')||swapLock||el.classList.contains('locked'));$('sideButton').disabled=phase==='revealing';$('sideButton').setAttribute('aria-label',side);}
+function setButtons(){let t='',s='',side='',enabled=true;const b=$('mainButton');if(phase==='idle'){t='答えを確かめる';s='REVEAL THE DIFFERENCE';side='ヒント';enabled=!swapLock}else if(phase==='revealing'){t='結果をすべて表示';s='TAP TO FINISH';side='···';enabled=true}else if(phase==='lost'){t='ヒントを見る';s='OR SWAP TO RETRY';side='正解例'}else{t=stage===49?'ステージを選ぶ':'次のステージへ';s=stage===49?'50 STAGES COMPLETE':'CONTINUE';side='学び'}$('mainText').textContent=t;$('mainSmall').textContent=s;$('sideText').textContent=side;b.disabled=!enabled;document.querySelectorAll('.tile-top').forEach(el=>el.disabled=(phase!=='idle'&&phase!=='lost')||swapLock||el.classList.contains('locked'));$('sideButton').disabled=phase==='revealing';$('sideButton').setAttribute('aria-label',side);}
 function progressRender(){const nav=$('progress');nav.replaceChildren();const first=Math.floor(stage/10)*10;for(let i=first;i<Math.min(first+10,50);i++){const b=document.createElement('button');b.type='button';b.className=(completed.includes(i)?'done ':'')+(i===stage?'active':'');b.setAttribute('aria-label',`ステージ${i+1} ${completed.includes(i)?'クリア済み':''}`);b.addEventListener('click',()=>loadStage(i));nav.append(b)}}
-function drawBoard(){const board=$('board'),p=pz(),n=p.nums.length;board.replaceChildren();board.dataset.size=n;for(let r=0;r<n;r++){const row=document.createElement('div');row.className='pyr-row';row.dataset.row=r;for(let c=0;c<n-r;c++){let el;if(r===0){el=document.createElement('button');el.type='button';el.className='tile tile-top'+(selected===c?' selected':'')+(p.lock.includes(c)?' locked':'');el.textContent=arrangement[c];el.dataset.index=c;el.setAttribute('aria-label',`左から${c+1}番目、数字${arrangement[c]}${p.lock.includes(c)?'、固定':''}`);el.disabled=(phase!=='idle'&&phase!=='lost')||swapLock||p.lock.includes(c);if(!p.lock.includes(c)){el.addEventListener('pointerdown',pointerDown);el.addEventListener('click',e=>{if(e.detail===0)tapCard(c)})}}else{el=document.createElement('div');el.className='tile tile-ghost';el.textContent='·';el.dataset.row=r;el.dataset.col=c;el.setAttribute('aria-label','計算結果は回答まで非表示')}row.appendChild(el)}board.append(row)}requestAnimationFrame(drawRails)}
+function drawBoard(){const board=$('board'),p=pz(),n=p.nums.length;board.replaceChildren();board.dataset.size=n;for(let r=0;r<n;r++){const row=document.createElement('div');row.className='pyr-row';row.dataset.row=r;for(let c=0;c<n-r;c++){let el;if(r===0){el=document.createElement('button');el.type='button';el.className='tile tile-top'+(selected===c?' selected':'')+(p.lock.includes(c)?' locked':'');el.textContent=arrangement[c];el.dataset.index=c;el.setAttribute('aria-label',`左から${c+1}番目、数字${arrangement[c]}${p.lock.includes(c)?'、固定':''}`);el.disabled=(phase!=='idle'&&phase!=='lost')||swapLock||p.lock.includes(c);if(!p.lock.includes(c)){el.addEventListener('pointerdown',pointerDown);el.addEventListener('click',e=>{if(e.detail===0)tapCard(c)})}}else{const selectable=stage>=14&&r<n-1;el=document.createElement(selectable?'button':'div');if(selectable){el.type='button';el.disabled=phase!=='idle'||!predictionMode;el.addEventListener('click',()=>setPrediction(r,c))}el.className='tile tile-ghost'+(prediction?.row===r&&prediction?.col===c?' predicted':'')+(predictionMode&&selectable?' prediction-choice':'');el.textContent=prediction?.row===r&&prediction?.col===c?'0?':'·';el.dataset.row=r;el.dataset.col=c;el.setAttribute('aria-label',prediction?.row===r&&prediction?.col===c?'0になると予言したマス':'計算結果は回答まで非表示')}row.appendChild(el)}board.append(row)}requestAnimationFrame(drawRails)}
 function drawRails(){const svg=$('railSvg'),w=$('boardWrap').getBoundingClientRect(),rows=[...$('board').children];if(!w.width||!w.height)return;svg.setAttribute('viewBox',`0 0 ${w.width} ${w.height}`);svg.replaceChildren();railMap.clear();for(let r=1;r<rows.length;r++)for(let c=0;c<rows[r].children.length;c++){const child=rows[r].children[c].getBoundingClientRect();for(let p=0;p<2;p++){const parent=rows[r-1].children[c+p].getBoundingClientRect(),sX=parent.left-w.left+parent.width/2,sY=parent.bottom-w.top+2,eX=child.left-w.left+child.width/2,eY=child.top-w.top-2;const line=document.createElementNS('http://www.w3.org/2000/svg','path');line.setAttribute('d',`M ${sX} ${sY} L ${eX} ${eY}`);line.classList.add('rail');svg.append(line);railMap.set(`${r}-${c}-${p}`,line)}}}
-function loadStage(idx){animToken++;if(drag)finishDrag();document.querySelectorAll('.flying-tile').forEach(n=>n.remove());for(const d of document.querySelectorAll('dialog'))if(d.open)d.close();stage=idx;store.set('stage',idx);const p=pz();arrangement=p.start.slice();selected=null;phase='idle';swapLock=false;hintLevel=0;revealCount=0;$('stageKicker').textContent=two(stage+1);$('stageCount').textContent=two(stage+1);$('goalNumber').textContent=p.target;$('boardMeta').textContent=p.lock.length?`固定 ${p.lock.length}枚 · 動かせる数字を交換`:`${p.nums.length} NUMBERS`;
+function loadStage(idx){animToken++;if(drag)finishDrag();document.querySelectorAll('.flying-tile').forEach(n=>n.remove());for(const d of document.querySelectorAll('dialog'))if(d.open)d.close();stage=idx;store.set('stage',idx);const p=pz();arrangement=p.start.slice();selected=null;phase='idle';swapLock=false;hintLevel=0;revealCount=0;lastAttempt=null;comparisonRows=null;skipReveal=false;prediction=null;predictionMode=false;attempts=0;$('predictBtn').hidden=idx<14;updatePredictionButton();$('stageKicker').textContent=two(stage+1);$('stageCount').textContent=two(stage+1);$('goalNumber').textContent=p.target;$('boardMeta').textContent=p.lock.length?`固定 ${p.lock.length}枚 · 動かせる数字を交換`:`${p.nums.length} NUMBERS`;
 $('chapterNote').textContent='CHAPTER '+two(chapterFor(stage).n);$('chapterLine').style.width=((stage+1)/50*100)+'%';setMessage(stage===0?'2枚のカードを交換して、最後を0にしよう':stage===13?'右端9は奇数。左端はどうするとよさそう？':p.lock.length?'光るカードは固定。ほかの数字を交換しよう':'カードをドラッグ、または2枚タップで交換');progressRender();drawBoard();setButtons()}
 function paintSelection(){document.querySelectorAll('.tile-top').forEach((el,i)=>el.classList.toggle('selected',i===selected))}
-function clearFailedResult(){if(phase!=='lost')return;phase='idle';selected=null;document.querySelectorAll('#board .tile-ghost').forEach(el=>{el.textContent='·';el.classList.remove('revealed','final','wrong')});document.querySelectorAll('#boardWrap .status-splash').forEach(el=>el.remove());$('boardMeta').textContent=pz().lock.length?'固定カード以外を交換':pz().nums.length+' NUMBERS';setMessage('配置を変えたら、もう一度計算しよう');setButtons()}
-function tapCard(i){if((phase!=='idle'&&phase!=='lost')||swapLock||pz().lock.includes(i))return;if(selected===null){selected=i;playTone(NOTES.C5,.065,'sine',.010);paintSelection();setMessage('もう1枚選んで交換しよう')}else if(selected===i){selected=null;paintSelection();setMessage(phase==='lost'?'結果を残したまま、別のカードを選べます':'2枚タップ、またはドラッグして交換')}else{const from=selected;selected=null;swapCards(from,i)}}
-function swapCards(a,b){if(a===b||(phase!=='idle'&&phase!=='lost')||swapLock||pz().lock.includes(a)||pz().lock.includes(b)){selected=null;paintSelection();return}swapLock=true;if(phase==='lost')clearFailedResult();const swapStage=stage,swapToken=animToken;const buttons=[...document.querySelectorAll('.tile-top')],first=buttons[a],second=buttons[b];if(reduced||!first||!second){[arrangement[a],arrangement[b]]=[arrangement[b],arrangement[a]];swapLock=false;drawBoard();setButtons();return}const ra=first.getBoundingClientRect(),rb=second.getBoundingClientRect();const clones=[];for(const [source,rect,target] of [[first,ra,rb],[second,rb,ra]]){const clone=source.cloneNode(true);clone.classList.remove('selected');clone.classList.add('flying-tile');clone.disabled=true;clone.style.left=rect.left+'px';clone.style.top=rect.top+'px';clone.style.width=rect.width+'px';clone.style.height=rect.height+'px';document.body.append(clone);source.style.visibility='hidden';clones.push(clone);clone.animate([{transform:'translate(0,0)'},{transform:`translate(${target.left-rect.left}px,${target.top-rect.top}px)`}],{duration:290,easing:'cubic-bezier(.19,.9,.25,1)',fill:'forwards'})}playTone(NOTES.G4,.105,'sine',.014);setTimeout(()=>{clones.forEach(x=>x.remove());if(stage!==swapStage||animToken!==swapToken)return;[arrangement[a],arrangement[b]]=[arrangement[b],arrangement[a]];swapLock=false;drawBoard();setButtons();setMessage('準備ができたら、答えを確かめよう')},295)}
+function clearFailedResult(){if(phase!=='lost')return;phase='idle';selected=null;document.querySelectorAll('#board .tile-ghost').forEach(el=>{el.textContent='·';el.classList.remove('revealed','final','wrong','changed-cell','zero-result','prediction-hit','prediction-miss')});document.querySelectorAll('#boardWrap .status-splash').forEach(el=>el.remove());prediction=null;predictionMode=false;updatePredictionButton();$('boardMeta').textContent=pz().lock.length?'固定カード以外を交換':pz().nums.length+' NUMBERS';setMessage('配置を変えたら、もう一度計算しよう');setButtons()}
+function tapCard(i){if((phase!=='idle'&&phase!=='lost')||swapLock||pz().lock.includes(i))return;if(selected===null){selected=i;playTouch('lift');paintSelection();setMessage('もう1枚選んで交換しよう')}else if(selected===i){selected=null;paintSelection();setMessage(phase==='lost'?'結果を残したまま、別のカードを選べます':'2枚タップ、またはドラッグして交換')}else{const from=selected;selected=null;swapCards(from,i)}}
+function swapCards(a,b){if(a===b||(phase!=='idle'&&phase!=='lost')||swapLock||pz().lock.includes(a)||pz().lock.includes(b)){selected=null;paintSelection();return}swapLock=true;if(phase==='lost')clearFailedResult();const swapStage=stage,swapToken=animToken;const buttons=[...document.querySelectorAll('.tile-top')],first=buttons[a],second=buttons[b];if(reduced||!first||!second){[arrangement[a],arrangement[b]]=[arrangement[b],arrangement[a]];swapLock=false;drawBoard();setButtons();return}const ra=first.getBoundingClientRect(),rb=second.getBoundingClientRect();const clones=[];for(const [source,rect,target] of [[first,ra,rb],[second,rb,ra]]){const clone=source.cloneNode(true);clone.classList.remove('selected');clone.classList.add('flying-tile');clone.disabled=true;clone.style.left=rect.left+'px';clone.style.top=rect.top+'px';clone.style.width=rect.width+'px';clone.style.height=rect.height+'px';document.body.append(clone);source.style.visibility='hidden';clones.push(clone);clone.animate([{transform:'translate(0,0)'},{transform:`translate(${target.left-rect.left}px,${target.top-rect.top}px)`}],{duration:230,easing:'cubic-bezier(.16,.9,.21,1)',fill:'forwards'})}playTouch('snap');setTimeout(()=>{clones.forEach(x=>x.remove());if(stage!==swapStage||animToken!==swapToken)return;[arrangement[a],arrangement[b]]=[arrangement[b],arrangement[a]];swapLock=false;drawBoard();setButtons();setMessage('準備ができたら、答えを確かめよう')},235)}
 function pointerDown(e){if((phase!=='idle'&&phase!=='lost')||swapLock||pz().lock.includes(Number(e.currentTarget.dataset.index))||e.button!==0)return;const node=e.currentTarget,index=Number(node.dataset.index);drag={id:e.pointerId,index,x:e.clientX,y:e.clientY,moved:false,ghost:null,over:index};node.setPointerCapture?.(e.pointerId);node.addEventListener('pointermove',pointerMove);node.addEventListener('pointerup',pointerUp,{once:true});node.addEventListener('pointercancel',pointerCancel,{once:true})}
 function findNearest(x,y){const nodes=[...document.querySelectorAll('.tile-top')];let best=-1,dist=Infinity;nodes.forEach((n,i)=>{if(pz().lock.includes(i))return;const r=n.getBoundingClientRect(),d=Math.hypot(x-(r.left+r.width/2),y-(r.top+r.height/2));if(d<dist){dist=d;best=i}});return dist<Math.max(80,innerWidth*.23)?best:-1}
 function pointerMove(e){if(!drag||e.pointerId!==drag.id)return;const d=Math.hypot(e.clientX-drag.x,e.clientY-drag.y);if(!drag.moved&&d>8){drag.moved=true;selected=null;const ghost=document.createElement('div');ghost.className='drag-ghost';ghost.textContent=arrangement[drag.index];document.body.append(ghost);drag.ghost=ghost;document.querySelectorAll('.tile-top')[drag.index]?.classList.add('is-origin')}if(!drag.moved)return;e.preventDefault();drag.ghost.style.left=e.clientX+'px';drag.ghost.style.top=e.clientY+'px';const closest=findNearest(e.clientX,e.clientY);drag.over=closest;document.querySelectorAll('.tile-top').forEach((n,i)=>n.classList.toggle('is-drop-target',i===closest&&i!==drag.index))}
 function finishDrag(){if(!drag)return;document.querySelectorAll('.tile-top').forEach(n=>{n.classList.remove('is-origin','is-drop-target');n.removeEventListener('pointermove',pointerMove)});drag.ghost?.remove();drag=null}
 function pointerUp(e){if(!drag||e.pointerId!==drag.id)return;const {moved,index,over}=drag;finishDrag();if(!moved)tapCard(index);else if(over>=0&&over!==index)swapCards(index,over);else paintSelection()}
 function pointerCancel(){finishDrag();paintSelection()}
-async function reveal(){if(phase!=='idle'||swapLock)return;armAudio();const token=++animToken,oldStage=stage;phase='revealing';selected=null;setButtons();$('boardMeta').textContent='差をたどろう';setMessage('差がつながっていく…');drawBoard();await wait(190);if(token!==animToken)return;const rows=calcRows(arrangement),n=rows.length;let noteStep=0;for(let r=1;r<n;r++){for(let c=0;c<rows[r].length;c++){if(token!==animToken)return;const el=$('board').children[r]?.children[c];if(!el)return;const parentRow=$('board').children[r-1],srcA=parentRow?.children[c],srcB=parentRow?.children[c+1];srcA?.classList.add('is-flashing');srcB?.classList.add('is-flashing');const lA=railMap.get(`${r}-${c}-0`),lB=railMap.get(`${r}-${c}-1`);lA?.classList.add('active');lB?.classList.add('active');playRevealNote(noteStep++,r===n-1);await wait(90);if(token!==animToken)return;el.textContent=rows[r][c];el.classList.add('revealed');if(r===n-1)el.classList.add('final');await wait(r===n-1?265:102);srcA?.classList.remove('is-flashing');srcB?.classList.remove('is-flashing');lA?.classList.remove('active');lB?.classList.remove('active')}await wait(62)}if(token!==animToken)return;const outcome=rows.at(-1)[0],success=outcome===pz().target;phase=success?'won':'lost';revealCount++;const lastTile=$('board').lastElementChild.firstElementChild;if(!success)lastTile.classList.add('wrong');if(success){const first=!completed.includes(stage);if(first){completed.push(stage);store.set('done',completed)}progressRender();playSuccess();createBurst();setMessage(completed.length===50?'全50問クリア！ お見事。':'ぴったり！ 今回の気づきを見てみよう。','good');showSplash(completed.length===50?'ALL CLEAR':'PERFECT');$('boardMeta').textContent='CLEAR';setButtons();await wait(650);if(token===animToken&&oldStage===stage)openLesson()}else{const miss=missFeedback(outcome,pz().target);playMiss(miss.tone);setMessage(miss.message,'bad');showSplash(miss.label,miss.tone);$('boardMeta').textContent='もう一度考えよう';setButtons()}}
+function setPrediction(r,c){if(phase!=='idle'||!predictionMode)return;if(prediction?.row===r&&prediction?.col===c)prediction=null;else prediction={row:r,col:c};predictionMode=false;playTouch('predict');updatePredictionButton();drawBoard();setMessage(prediction?'このマスは0になる？ 答え合わせで確かめよう。':'予言を取り消しました。')}
+function updatePredictionButton(){const btn=$('predictBtn');btn.classList.toggle('active',predictionMode||!!prediction);btn.setAttribute('aria-pressed',String(predictionMode));btn.textContent=prediction?'◆ 0 を予言中':predictionMode?'マスを選んでね':'◇ 0を予言'}
+function sparkToChild(a,b,target){if(reduced||skipReveal)return;const points=[a,b].map(el=>el?.getBoundingClientRect()).filter(Boolean),end=target.getBoundingClientRect();for(const r of points){const x=r.left+r.width/2,y=r.bottom-4,ex=end.left+end.width/2,ey=end.top+end.height*.4;const spark=document.createElement('span');spark.className='causal-spark';spark.style.left=x+'px';spark.style.top=y+'px';document.body.append(spark);const anim=spark.animate([{transform:'translate(-50%,-50%) scale(.2)',opacity:0},{transform:`translate(calc(-50% + ${(ex-x)*.64}px), calc(-50% + ${(ey-y)*.64}px)) scale(1)`,opacity:.95,offset:.66},{transform:`translate(calc(-50% + ${ex-x}px), calc(-50% + ${ey-y}px)) scale(.24)`,opacity:0}],{duration:165,easing:'cubic-bezier(.35,.02,.68,1)',fill:'forwards'});anim.onfinish=()=>spark.remove();setTimeout(()=>spark.remove(),230)}}
+async function reveal(){
+ if(phase!=='idle'||swapLock)return;
+ armAudio();skipReveal=false;comparisonRows=lastAttempt;const token=++animToken,oldStage=stage;
+ phase='revealing';selected=null;predictionMode=false;updatePredictionButton();setButtons();$('boardMeta').textContent='差をたどろう';setMessage('差がつながっていく…');drawBoard();
+ await wait(140);if(token!==animToken)return;
+ const rows=calcRows(arrangement),n=rows.length;let noteStep=0;
+ for(let r=1;r<n;r++){
+  for(let c=0;c<rows[r].length;c++){
+   if(token!==animToken)return;
+   const el=$('board').children[r]?.children[c];if(!el)return;
+   const parents=$('board').children[r-1],a=parents?.children[c],b=parents?.children[c+1];
+   a?.classList.add('is-flashing');b?.classList.add('is-flashing');
+   const lineA=railMap.get(`${r}-${c}-0`),lineB=railMap.get(`${r}-${c}-1`);
+   lineA?.classList.add('active');lineB?.classList.add('active');
+   sparkToChild(a,b,el);
+   if(!skipReveal)playRevealNote(noteStep++,r===n-1,r);
+   await wait(skipReveal?1:105);if(token!==animToken)return;
+   const value=rows[r][c];el.textContent=value;el.classList.add('revealed');
+   if(value===0)el.classList.add('zero-result');
+   if(comparisonRows&&comparisonRows[r][c]!==value)el.classList.add('changed-cell');
+   if(prediction?.row===r&&prediction?.col===c)el.classList.add(value===0?'prediction-hit':'prediction-miss');
+   if(r===n-1)el.classList.add('final');
+   await wait(skipReveal?1:r===n-1?190:95);
+   a?.classList.remove('is-flashing');b?.classList.remove('is-flashing');
+   lineA?.classList.remove('active');lineB?.classList.remove('active');
+  }
+  await wait(skipReveal?1:40);
+ }
+ if(token!==animToken)return;
+ const outcome=rows.at(-1)[0],success=outcome===pz().target;
+ phase=success?'won':'lost';revealCount++;attempts++;
+ const lastTile=$('board').lastElementChild.firstElementChild;
+ if(!success)lastTile.classList.add('wrong');
+ const changed=comparisonRows?rows.slice(1).reduce((sum,r,i)=>sum+r.filter((v,j)=>v!==comparisonRows[i+1][j]).length,0):null;
+ const predictionHit=prediction&&rows[prediction.row][prediction.col]===0;
+ if(success){
+  const first=!completed.includes(stage);if(first){completed.push(stage);store.set('done',completed)}progressRender();playSuccess();createBurst();
+  setMessage(predictionHit?'0の予言も的中！ 見えていたね。':completed.length===50?'全50問クリア！ お見事。':'ぴったり。数字のつながりを見てみよう。','good');
+  showSplash(completed.length===50?'ALL CLEAR':'PERFECT');$('boardMeta').textContent='CLEAR';setButtons();
+  await wait(skipReveal?210:450);if(token===animToken&&oldStage===stage)openLesson();
+ }else{
+  lastAttempt=rows.map(x=>x.slice());const miss=missFeedback(outcome,pz().target);playMiss(miss.tone);
+  const statement=predictionHit?'0の予言は的中！ 最後の数字も確かめよう。':changed!==null?`前回から${changed}マスの差が変わった。もう一度考えてみよう。`:miss.message;
+  setMessage(statement,'bad');showSplash(miss.label,miss.tone);$('boardMeta').textContent='交換するとすぐ再挑戦';setButtons();
+ }
+}
 function missFeedback(outcome,target){
  const distance=Math.abs(outcome-target);
  if(distance===1)return{label:'SO CLOSE',tone:'near',message:`結果は${outcome}。目標と1ちがうね。交換してもう一度！`};
@@ -251,12 +322,24 @@ function detailFor(p,rows){
  if(p.topic==='equal')return '<p>3枚なら、まんなかを両端から同じだけ離れた数にすると、最後は0になる。</p>';
  return `<p>${LESSONS[p.topic][2]}</p>`;
 }
+function conceptLens(p,rows){
+ const fmt=n=>String(n);const a=rows[0],r1=rows[1];
+ if(p.topic==='equal'||p.topic==='zero'){
+  const x=a[0],y=a[1],low=Math.min(x,y),high=Math.max(x,y),gap=high-low;
+  return `<div class="lens-label">数字の間には、距離がある</div><div class="lens-scale">${Array.from({length:10},(_,i)=>`<span class="lens-tick ${i>=low&&i<=high?'on':''} ${i===low||i===high?'point':''}">${i}</span>`).join('')}</div><div class="lens-sentence">${low} から ${high} までは <b>${gap}</b> はなれている</div>`;
+ }
+ if(p.topic==='parity5')return `<div class="lens-label">端っこの2枚を見てみよう</div><div class="lens-pair"><span>${a[0]} <small>${a[0]%2?'奇数':'偶数'}</small></span><em>と</em><span>${a.at(-1)} <small>${a.at(-1)%2?'奇数':'偶数'}</small></span></div><div class="lens-sentence">5枚なら、最後の奇数・偶数はこの2枚で決まる</div>`;
+ if(p.topic==='zero5'){let v=null;for(let r=1;r<rows.length-1;r++){for(let c=0;c<rows[r].length-1;c++){if(rows[r][c]===rows[r][c+1]){v=rows[r][c];break}}if(v!==null)break}return `<div class="lens-label">0 が生まれる理由</div><div class="lens-pair"><span>${v??0}</span><em>−</em><span>${v??0}</span></div><div class="lens-sentence">同じ数字なら差は0。途中の段にも注目しよう</div>`;}
+ if(p.topic==='reverse')return `<div class="lens-label">下から逆に読む</div><div class="lens-pair"><span>${rows.at(-2)[0]}</span><em>−</em><span>${rows.at(-2)[1]}</span></div><div class="lens-sentence">差が <b>${rows.at(-1)[0]}</b> になる2つの数を想像する</div>`;
+ if(p.topic==='master')return `<div class="lens-label">学んだ3つの見方</div><div class="lens-sentence">両端の偶奇 → 途中の0 → 最後の差</div>`;
+ return `<div class="lens-label">並べる前に考える</div><div class="lens-sentence">使う数字と、動かせる場所をしぼる</div>`;
+}
 function openLesson(){
  const p=pz(),rows=calcRows(arrangement),rec=LESSONS[p.topic],special=BADGES.some(b=>b.at===stage);
  $('lessonStage').textContent='STAGE '+two(stage+1)+(special?' / NEW IDEA':' / CLEAR');
  $('lessonTitle').textContent=special?rec[0]:'今回の気づき';
  $('lessonLead').textContent=rec[1];
- $('lessonProof').textContent=proofFor(p,rows);
+ $('lessonProof').textContent=proofFor(p,rows);$('lessonLens').hidden=!special;$('lessonLens').innerHTML=special?conceptLens(p,rows):'';
  $('lessonBadge').hidden=!special;
  $('lessonVisual').hidden=!special;
  $('lessonVisual').innerHTML=special?miniPyramid(rows,p.topic==='parity5'):'';
@@ -271,11 +354,11 @@ function showSolution(){const p=pz();$('hintDialog').querySelector('h2').textCon
 function openStageDialog(){const grid=$('stageGrid');grid.replaceChildren();for(let i=0;i<50;i++){const b=document.createElement('button');b.type='button';b.className='stage-choice'+(completed.includes(i)?' done':'')+(i===stage?' current':'');const num=document.createElement('span');num.textContent=two(i+1);const s=document.createElement('small');s.textContent=completed.includes(i)?'✓ CLEAR':i===stage?'NOW':'PLAY';b.append(num,s);b.addEventListener('click',()=>loadStage(i));grid.append(b)}$('stageDialog').showModal();grid.querySelector('.current')?.scrollIntoView({block:'nearest'})}
 function openNotebook(){const list=$('notebookList');list.replaceChildren();for(const badge of BADGES){const unlocked=completed.some(s=>s>=badge.at && PUZZLES[s].topic===badge.key) || completed.includes(badge.at),rec=LESSONS[badge.key];const box=document.createElement('div');box.className='notebook-item'+(unlocked?'':' locked-note');box.innerHTML=`<div class="note-symbol">${unlocked?'✦':'·'}</div><div class="note-copy"><small>${unlocked?'LEARNED · STAGE '+two(badge.at+1):'LOCKED · STAGE '+two(badge.at+1)}</small><strong>${unlocked?rec[0]:'???'}</strong>${unlocked?`<p>${rec[1]}</p>`:''}</div>`;list.append(box)}$('notebookDialog').showModal()}
 function updateSoundIcon(){$('soundOn').hidden=!audioEnabled;$('soundOff').hidden=audioEnabled;$('soundBtn').setAttribute('aria-label',audioEnabled?'サウンドをオフ':'サウンドをオン')}
-$('mainButton').addEventListener('click',()=>{if(phase==='idle')reveal();else if(phase==='lost')openHint();else if(phase==='won'){if(stage===49)openStageDialog();else loadStage(stage+1)}});
+$('mainButton').addEventListener('click',()=>{if(phase==='idle')reveal();else if(phase==='revealing')skipReveal=true;else if(phase==='lost')openHint();else if(phase==='won'){if(stage===49)openStageDialog();else loadStage(stage+1)}});
 $('sideButton').addEventListener('click',()=>{if(phase==='idle')openHint();else if(phase==='lost')showSolution();else if(phase==='won')openLesson()});
 $('lessonContinue').addEventListener('click',()=>{if(stage===49)openStageDialog();else loadStage(stage+1)});
 $('helpBtn').addEventListener('click',()=>$('helpDialog').showModal());$('notebookBtn').addEventListener('click',openNotebook);$('stageOpen').addEventListener('click',openStageDialog);
-$('extraHintBtn').addEventListener('click',extraHint);$('showAnswerBtn').addEventListener('click',()=>{$('hintDialog').close();showSolution()});
+$('predictBtn').addEventListener('click',()=>{if(phase!=='idle')return;predictionMode=!predictionMode;updatePredictionButton();drawBoard();playTouch('predict');setMessage(predictionMode?'下段の好きなマスをタップして、0を予想しよう。':'カードを並べて、差を確かめよう。')});$('extraHintBtn').addEventListener('click',extraHint);$('showAnswerBtn').addEventListener('click',()=>{$('hintDialog').close();showSolution()});
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$((b.dataset.close)).close()));for(const d of document.querySelectorAll('dialog')){d.addEventListener('click',e=>{if(e.target===d)d.close()})}
 $('soundBtn').addEventListener('click',()=>{audioEnabled=!audioEnabled;store.set('sound',audioEnabled);updateSoundIcon();if(audioEnabled)playTone(NOTES.C5,.16,'sine',.014)});
 window.addEventListener('resize',()=>requestAnimationFrame(drawRails));
