@@ -266,7 +266,7 @@ const two=n=>String(n).padStart(2,'0');
 let stage=Math.max(0,Math.min(499,Math.trunc(Number(store.get('stage',0))||0)));
 let completed=store.get('done',[]);if(!Array.isArray(completed))completed=[];completed=[...new Set(completed.filter(n=>Number.isInteger(n)&&n>=0&&n<500))];
 let selectedChapter=0;
-let arrangement=[],selected=null,phase='idle',hintLevel=0,hintSeen={},lastAttempt=null,comparisonRows=null,skipReveal=false,manualAdvance=null,prediction=null,predictionMode=false,attempts=0,audioEnabled=store.get('sound',(()=>{try{return JSON.parse(localStorage.getItem('diff_academy_v05_sound'))??true}catch{return true}})()),audioCtx=null,railMap=new Map(),drag=null,swapLock=false,animToken=0,revealCount=0;
+let arrangement=[],selected=null,phase='idle',hintLevel=0,hintSeen={},lastAttempt=null,comparisonRows=null,skipReveal=false,prediction=null,predictionMode=false,attempts=0,audioEnabled=store.get('sound',(()=>{try{return JSON.parse(localStorage.getItem('diff_academy_v05_sound'))??true}catch{return true}})()),audioCtx=null,railMap=new Map(),drag=null,swapLock=false,animToken=0,revealCount=0;
 const pz=()=>PUZZLES[stage];
 // An intentionally sparse, consonant sound palette: tactile micro-clicks + glass harmonics.
 // Each calculation sounds like a polished, soft glass bead, not a random melody.
@@ -279,11 +279,11 @@ function playRevealNote(step,final,row){const pitches=[NOTES.C5,NOTES.E5,NOTES.G
 function playSuccess(){[[NOTES.C5,0,.018],[NOTES.E5,.10,.015],[NOTES.G5,.20,.016],[NOTES.C6,.32,.018]].forEach(([f,d,v])=>playGlass(f,v,.37,d))}
 function playMiss(kind){playGlass(kind==='near'?NOTES.E5:NOTES.C5,.010,.15);playGlass(NOTES.G4,.006,.16,.12)}
 function setMessage(msg,cls=''){const x=$('boardMessage');x.textContent=msg;x.className='board-message '+cls}
-function setButtons(){let t='',s='',side='',enabled=true;const b=$('mainButton');if(phase==='idle'){t='答えをみる';s='REVEAL THE DIFFERENCE';side='ヒント';enabled=!swapLock}else if(phase==='revealing'){t=stage<6?'次の差をみる':'結果をすべて表示';s='';side='···';enabled=true}else if(phase==='lost'){t='ヒントを見る';s='OR SWAP TO RETRY';side='正解例'}else{t=stage===499?'ステージを選ぶ':'次のステージへ';s=stage===499?'500 STAGES COMPLETE':'CONTINUE';side='学び'}$('mainText').textContent=t;$('mainSmall').textContent=s;$('sideText').textContent=side;b.disabled=!enabled;document.querySelectorAll('.tile-top').forEach(el=>el.disabled=(phase!=='idle'&&phase!=='lost')||swapLock||el.classList.contains('locked'));$('sideButton').disabled=phase==='revealing';$('sideButton').setAttribute('aria-label',side);}
+function setButtons(){let t='',s='',side='',enabled=true;const b=$('mainButton');if(phase==='idle'){t='答えをみる';s='REVEAL THE DIFFERENCE';side='ヒント';enabled=!swapLock}else if(phase==='revealing'){t='結果をすべて表示';s='';side='···';enabled=true}else if(phase==='lost'){t='ヒントを見る';s='OR SWAP TO RETRY';side='正解例'}else{t=stage===499?'ステージを選ぶ':'次のステージへ';s=stage===499?'500 STAGES COMPLETE':'CONTINUE';side='学び'}$('mainText').textContent=t;$('mainSmall').textContent=s;$('sideText').textContent=side;b.disabled=!enabled;document.querySelectorAll('.tile-top').forEach(el=>el.disabled=(phase!=='idle'&&phase!=='lost')||swapLock||el.classList.contains('locked'));$('sideButton').disabled=phase==='revealing';$('sideButton').setAttribute('aria-label',side);}
 function progressRender(){const nav=$('progress');const fill=document.createElement('i');fill.style.width=((stage+1)/500*100)+'%';nav.replaceChildren(fill);nav.setAttribute('aria-valuenow',String(stage+1));nav.setAttribute('aria-valuetext',`ステージ ${stage+1} / 500`)}
 function drawBoard(){const board=$('board'),p=pz(),n=p.nums.length;board.replaceChildren();board.dataset.size=n;for(let r=0;r<n;r++){const row=document.createElement('div');row.className='pyr-row';row.dataset.row=r;for(let c=0;c<n-r;c++){let el;if(r===0){el=document.createElement('button');el.type='button';el.className='tile tile-top'+(selected===c?' selected':'')+(p.lock.includes(c)?' locked':'');el.textContent=arrangement[c];el.dataset.index=c;el.setAttribute('aria-label',`左から${c+1}番目、数字${arrangement[c]}${p.lock.includes(c)?'、固定':''}`);el.disabled=(phase!=='idle'&&phase!=='lost')||swapLock||p.lock.includes(c);if(!p.lock.includes(c)){el.addEventListener('pointerdown',pointerDown);el.addEventListener('click',e=>{if(e.detail===0)tapCard(c)})}}else{const clue=p.clue?.row===r&&p.clue?.col===c;const selectable=stage>=150&&r<n-1&&!clue;el=document.createElement(selectable?'button':'div');if(selectable){el.type='button';el.disabled=phase!=='idle'||!predictionMode;el.addEventListener('click',()=>setPrediction(r,c))}el.className='tile tile-ghost'+(clue?' clue-cell':'')+(prediction?.row===r&&prediction?.col===c?' predicted':'')+(predictionMode&&selectable?' prediction-choice':'');el.textContent=clue?p.clue.value:prediction?.row===r&&prediction?.col===c?'0?':'·';el.dataset.row=r;el.dataset.col=c;el.setAttribute('aria-label',clue?`指定された途中の数字${p.clue.value}`:prediction?.row===r&&prediction?.col===c?'0になると予言したマス':'計算結果は回答まで非表示')}row.appendChild(el)}board.append(row)}requestAnimationFrame(drawRails)}
 function drawRails(){const svg=$('railSvg'),w=$('boardWrap').getBoundingClientRect(),rows=[...$('board').children];if(!w.width||!w.height)return;svg.setAttribute('viewBox',`0 0 ${w.width} ${w.height}`);svg.replaceChildren();railMap.clear();for(let r=1;r<rows.length;r++)for(let c=0;c<rows[r].children.length;c++){const child=rows[r].children[c].getBoundingClientRect();for(let p=0;p<2;p++){const parent=rows[r-1].children[c+p].getBoundingClientRect(),sX=parent.left-w.left+parent.width/2,sY=parent.bottom-w.top+2,eX=child.left-w.left+child.width/2,eY=child.top-w.top-2;const line=document.createElementNS('http://www.w3.org/2000/svg','path');line.setAttribute('d',`M ${sX} ${sY} L ${eX} ${eY}`);line.classList.add('rail');svg.append(line);railMap.set(`${r}-${c}-${p}`,line)}}}
-function loadStage(idx){if(manualAdvance){const go=manualAdvance;manualAdvance=null;go()}animToken++;if(drag)finishDrag();document.querySelectorAll('.flying-tile').forEach(n=>n.remove());for(const d of document.querySelectorAll('dialog'))if(d.open)d.close();stage=idx;store.set('stage',idx);const p=pz();arrangement=p.start.slice();selected=null;phase='idle';swapLock=false;hintLevel=0;revealCount=0;lastAttempt=null;comparisonRows=null;skipReveal=false;prediction=null;predictionMode=false;attempts=0;$('predictBtn').hidden=idx<150;$('boardMeta').closest('.board-meta').classList.toggle('has-prediction',idx>=150);updatePredictionButton();$('stageKicker').textContent=String(stage+1).padStart(3,'0');$('stageCount').textContent=String(stage+1).padStart(3,'0');$('goalNumber').textContent=p.target;$('boardMeta').textContent=p.lock.length?`固定 ${p.lock.length}枚 · 動かせる数字を交換`:`${p.nums.length} NUMBERS`;
+function loadStage(idx){animToken++;if(drag)finishDrag();document.querySelectorAll('.flying-tile').forEach(n=>n.remove());for(const d of document.querySelectorAll('dialog'))if(d.open)d.close();stage=idx;store.set('stage',idx);const p=pz();arrangement=p.start.slice();selected=null;phase='idle';swapLock=false;hintLevel=0;revealCount=0;lastAttempt=null;comparisonRows=null;skipReveal=false;prediction=null;predictionMode=false;attempts=0;$('predictBtn').hidden=idx<150;$('boardMeta').closest('.board-meta').classList.toggle('has-prediction',idx>=150);updatePredictionButton();$('stageKicker').textContent=String(stage+1).padStart(3,'0');$('stageCount').textContent=String(stage+1).padStart(3,'0');$('goalNumber').textContent=p.target;$('boardMeta').textContent=p.lock.length?`固定 ${p.lock.length}枚 · 動かせる数字を交換`:`${p.nums.length} NUMBERS`;
 setMessage(stage===0?'2を まんなかに置いてみよう':stage<6?'まんなかを動かして、最後の数字を作ろう':p.clue?'光る途中の数字もそろえよう':p.lock.length?'光るカードは固定。ほかを交換しよう':'ドラッグ、または2枚タップで交換');progressRender();drawBoard();setButtons()}
 function paintSelection(){document.querySelectorAll('.tile-top').forEach((el,i)=>el.classList.toggle('selected',i===selected))}
 function clearFailedResult(){if(phase!=='lost')return;phase='idle';selected=null;document.querySelectorAll('#board .tile-ghost').forEach(el=>{const cl=pz().clue;el.textContent=cl&&Number(el.dataset.row)===cl.row&&Number(el.dataset.col)===cl.col?cl.value:'·';el.classList.remove('revealed','final','wrong','changed-cell','zero-result','prediction-hit','prediction-miss','clue-miss')});document.querySelectorAll('#boardWrap .status-splash').forEach(el=>el.remove());prediction=null;predictionMode=false;updatePredictionButton();$('boardMeta').textContent=pz().lock.length?'固定カード以外を交換':pz().nums.length+' NUMBERS';setMessage('配置を変えたら、もう一度計算しよう');setButtons()}
@@ -301,8 +301,8 @@ function sparkToChild(a,b,target){if(reduced||skipReveal)return;const points=[a,
 async function reveal(){
   if(phase!=='idle'||swapLock)return;
   armAudio();skipReveal=false;comparisonRows=lastAttempt;const token=++animToken,oldStage=stage;
-  phase='revealing';selected=null;predictionMode=false;manualAdvance=null;updatePredictionButton();setButtons();
-  $('boardMeta').textContent='差をたどろう';setMessage('となり合う数字をくらべよう');drawBoard();
+  phase='revealing';selected=null;predictionMode=false;updatePredictionButton();setButtons();
+  $('boardMeta').textContent='差をたどろう';setMessage(stage<6?'':'となり合う数字をくらべよう');drawBoard();
   await wait(160);if(token!==animToken)return;
   const rows=calcRows(arrangement),n=rows.length;
   const renderCell=(r,c)=>{
@@ -314,24 +314,8 @@ async function reveal(){
     if(prediction?.row===r&&prediction?.col===c)el.classList.add(value===0?'prediction-hit':'prediction-miss');
     if(r===n-1)el.classList.add('final');
   };
-  if(stage<6){
-    // A child controls every step. Highlight the parent pair, then reveal its difference on tap.
-    for(let r=1;r<n;r++)for(let c=0;c<rows[r].length;c++){
-      if(token!==animToken)return;
-      const parents=$('board').children[r-1],a=parents?.children[c],b=parents?.children[c+1];
-      const lineA=railMap.get(`${r}-${c}-0`),lineB=railMap.get(`${r}-${c}-1`);
-      a?.classList.add('is-flashing');b?.classList.add('is-flashing');lineA?.classList.add('active');lineB?.classList.add('active');
-      setMessage('光る2つの数字の差は？ ボタンを押してみよう');setButtons();
-      if(!skipReveal){
-        await new Promise(resolve=>{manualAdvance=resolve});manualAdvance=null;
-      }
-      if(token!==animToken)return;
-      playRevealNote(c,r===n-1,r);sparkToChild(a,b,$('board').children[r].children[c]);
-      renderCell(r,c);setMessage('そう、この数字が下に生まれる。','good');
-      await wait(skipReveal?1:620);if(token!==animToken)return;
-      a?.classList.remove('is-flashing');b?.classList.remove('is-flashing');lineA?.classList.remove('active');lineB?.classList.remove('active');
-    }
-  }else{
+  // Every stage reveals complete rows automatically; the player never has to advance individual cells.
+  {
     // The entire next row appears together: visual reasoning without flashes of arithmetic text.
     for(let r=1;r<n;r++){
       if(token!==animToken)return;
@@ -341,15 +325,15 @@ async function reveal(){
       for(let c=0;c<rows[r].length;c++)for(let j=0;j<2;j++){
         const line=railMap.get(`${r}-${c}-${j}`);if(line){line.classList.add('active');lines.push(line)}
       }
-      setMessage('この段の差は、どうなるかな？');
-      await wait(skipReveal?1:stage<26?660:stage<75?480:310);if(token!==animToken)return;
+      if(stage>=6)setMessage('この段の差は、どうなるかな？');
+      await wait(skipReveal?1:stage<6?320:stage<26?660:stage<75?480:310);if(token!==animToken)return;
       for(let c=0;c<rows[r].length;c++){
         const a=parents?.children[c],b=parents?.children[c+1];
         sparkToChild(a,b,row.children[c]);renderCell(r,c);
       }
       if(!skipReveal)playRevealNote(r,r===n-1,r);
-      setMessage('ひとつ下の段ができた。','good');
-      await wait(skipReveal?1:stage<26?780:stage<75?590:410);if(token!==animToken)return;
+      if(stage>=6)setMessage('ひとつ下の段ができた。','good');
+      await wait(skipReveal?1:stage<6?360:stage<26?780:stage<75?590:410);if(token!==animToken)return;
       [...parents.children].forEach(el=>el.classList.remove('is-flashing'));lines.forEach(el=>el.classList.remove('active'));
     }
   }
@@ -465,8 +449,8 @@ function openStageDialog(){showChapter(Math.floor(stage/25));$('stageDialog').sh
 function openNotebook(){const list=$('notebookList');list.replaceChildren();for(const badge of BADGES){const unlocked=completed.some(s=>s>=badge.at && PUZZLES[s].topic===badge.key) || completed.includes(badge.at),rec=LESSONS[badge.key];const box=document.createElement('div');box.className='notebook-item'+(unlocked?'':' locked-note');box.innerHTML=`<div class="note-symbol">${unlocked?'✦':'·'}</div><div class="note-copy"><small>${unlocked?'LEARNED · STAGE '+two(badge.at+1):'LOCKED · STAGE '+two(badge.at+1)}</small><strong>${unlocked?rec[0]:'???'}</strong>${unlocked?`<p>${rec[1]}</p>`:''}</div>`;list.append(box)}$('notebookDialog').showModal()}
 function updateSoundIcon(){$('soundOn').hidden=!audioEnabled;$('soundOff').hidden=audioEnabled;$('soundBtn').setAttribute('aria-label',audioEnabled?'サウンドをオフ':'サウンドをオン');$('soundLabel').textContent=audioEnabled?'ON':'OFF';$('soundLabel').classList.toggle('muted',!audioEnabled)}
 // A single tap anywhere on the pyramid fast-forwards an ongoing reveal.
-$('boardWrap').addEventListener('click',()=>{if(phase==='revealing'){if(stage<6){if(manualAdvance){const go=manualAdvance;manualAdvance=null;go()}}else{skipReveal=true;setMessage('残りを表示します')}}});
-$('mainButton').addEventListener('click',()=>{if(phase==='idle')reveal();else if(phase==='revealing'){if(stage<6){if(manualAdvance){const go=manualAdvance;manualAdvance=null;go()}}else skipReveal=true;}else if(phase==='lost')openHint();else if(phase==='won'){if(stage===499)openStageDialog();else loadStage(stage+1)}});
+$('boardWrap').addEventListener('click',()=>{if(phase==='revealing'){skipReveal=true;setMessage('残りを表示します')}});
+$('mainButton').addEventListener('click',()=>{if(phase==='idle')reveal();else if(phase==='revealing')skipReveal=true;else if(phase==='lost')openHint();else if(phase==='won'){if(stage===499)openStageDialog();else loadStage(stage+1)}});
 $('sideButton').addEventListener('click',()=>{if(phase==='idle')openHint();else if(phase==='lost')showSolution();else if(phase==='won')openLesson()});
 $('lessonContinue').addEventListener('click',()=>{if(stage===499){$('lessonDialog').close();openStageDialog()}else loadStage(stage+1)});
 $('settingsBtn').addEventListener('click',()=>$('settingsDialog').showModal());$('helpBtn').addEventListener('click',()=>{$('settingsDialog').close();$('helpDialog').showModal()});$('notebookBtn').addEventListener('click',()=>{$('settingsDialog').close();openNotebook()});$('stageOpen').addEventListener('click',openStageDialog);
